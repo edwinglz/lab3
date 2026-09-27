@@ -18,11 +18,10 @@ public abstract class ChessPiece{
         this.column = column;
     }
 
-    //abstract method
+    //abstract method verifyMove, to be implemented in each piece class
     abstract boolean verifyMove(char column, int row);
 
     //getters
-
     public String getColor(){
         return this.color;
     }
@@ -40,7 +39,6 @@ public abstract class ChessPiece{
     }
 
     //setters
-
     public void setColumn(char column){
         this.column = column;
     }

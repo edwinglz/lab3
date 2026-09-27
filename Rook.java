@@ -12,7 +12,18 @@ public class Rook extends ChessPiece{
     }
 
     @Override 
-    public boolean verifyMove(char column, int row){
-        return false;
+    public boolean verifyMove(char targetCol, int targetRow) {
+        char currentCol = getColumn();
+        int currentRow = getRow();
+
+        // Rook moves along straight lines: same column OR same row
+        boolean sameCol = (currentCol == targetCol);
+        boolean sameRow = (currentRow == targetRow);
+
+        if (sameCol && sameRow) {
+            return false;
+        }
+
+        return sameCol || sameRow;
     }
 }

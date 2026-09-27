@@ -12,7 +12,21 @@ public class Knight extends ChessPiece{
     }
 
     @Override 
+    //validation
     public boolean verifyMove(char column, int row){
+        char targetCol = Character.toLowerCase(column);
+        char currentCol = Character.toLowerCase(getColumn());
+
+        //current = target
+        if(targetCol == currentCol && row == getRow()){
+            return false;
+        }
+        
+        //validation
+        if((Math.abs(currentCol - targetCol) == 1 && Math.abs(getRow() - row) == 2) || (Math.abs(getRow() - row) == 1 && Math.abs(currentCol - targetCol) == 2)){
+            return true;
+        }
+        
         return false;
     }
 }
