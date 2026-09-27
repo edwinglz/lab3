@@ -1,13 +1,13 @@
-public class Bishop extends ChessPiece{
+public class Knight extends ChessPiece{
     
     //attributes are inherited
 
     //constructors
-    public Bishop(){
+    public Knight(){
 
     }
 
-    public Bishop(String piece_name,String color,int row,char column){
+    public Knight(String piece_name,String color,int row,char column){
         super(piece_name, color, row, column);
     }
 
