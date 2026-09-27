@@ -13,6 +13,14 @@ public class Bishop extends ChessPiece{
 
     @Override 
     public boolean verifyMove(char column, int row){
-        return false;
+        char targetCol = Character.toLowerCase(column);
+        char currentCol = Character.toLowerCase(getColumn());
+
+        if(targetCol == currentCol && row == getRow()){
+            return false;
+        }
+        boolean isBishopMove = Math.abs(targetCol - currentCol) == Math.abs(row - getRow());
+
+        return isBishopMove;
     }
 }
