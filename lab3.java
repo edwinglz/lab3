@@ -13,6 +13,7 @@ import java.util.Scanner;
 // 9/27 - Framework for classes was made, Pieces, Chessboard, ChessPiece, Main created.
 // 9/28 - Piece type classes VerifyMove methods created.
 // 9/28 - Main method created, user input for piece type, color, and coordinates created. Updated comment header.
+// 9/28 - Updates on main method including every input validation, moved and implemented column enum type to Chessboard class.
 //--------------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------------
@@ -23,8 +24,44 @@ public class lab3{
     public enum PieceType {
         KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN
     }
-    public enum columns {
-        a, b, c, d, e, f, g, h
+
+
+    //custom method to make sure piece type name is correct
+    public static PieceType getPieceType(Scanner scanner, ChessPiece[] piecesArray) {
+        while (true) {
+            System.out.print("Piece type (KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN): ");
+            String input = scanner.nextLine().trim().toUpperCase();
+
+            // check if name is real piece type
+            PieceType type;
+            try {
+                type = PieceType.valueOf(input);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid piece type! Please enter one of the listed pieces.\n");
+                continue;  // back to the prompt
+            }
+
+            // check if name of piece has been used already
+            boolean samePiece = false;
+            for (int i = 0; i < piecesArray.length; i++) {
+
+                //if null that means no more pieces
+                if(piecesArray[i] == null){
+                    break;
+                }
+                if (input.equals(piecesArray[i].getPieceName().toUpperCase())) {
+                    samePiece = true;
+                    break;
+                }
+            }
+            if (samePiece) {
+                System.out.println("Chess piece already used! Please pick a new one.");
+                continue;  // back to the prompt
+            }
+
+            //passed both checks
+            return type;
+        }
     }
 
     //MAIN
@@ -38,21 +75,44 @@ public class lab3{
         //for loop to get user input for each piece and create the corresponding chess piece in the array
         for(int i = 0; i < pieces.length; i++){
             System.out.println("Enter details for piece " + (i + 1) + ":");
-            System.out.print("Piece type (KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN): ");
 
             //Get Piece Type
-            String typeInput = scanner.nextLine().toUpperCase();
-            PieceType pieceType = PieceType.valueOf(typeInput);
+            PieceType pieceType = getPieceType(scanner, pieces);
             //Get Color
-            System.out.print("Color (white or black): ");
-            String color = scanner.nextLine().toLowerCase();
-            //Get Row
-            System.out.print("Row (1-8): ");
-            int row = scanner.nextInt();
-            scanner.nextLine(); // consume newline
-            //Get Column
-            System.out.print("Column (a-h): ");
-            char column = scanner.nextLine().charAt(0);
+            String color;
+            while(true){
+                System.out.print("Color (white or black): ");
+                color = scanner.nextLine().toLowerCase().trim();
+                if (color.equals("white") || color.equals("black")){
+                    break;
+                }else{
+                    System.out.println("Invalid color. Please try again.");
+                }
+            }
+
+            //Get Row and Column
+            int row;
+            char column;
+            while (true) {
+                System.out.println("\nPlease type the starting position of your piece (e.g., e4): ");
+                String targetPosition = scanner.nextLine().trim();
+
+                // Check basic length and types before getting column and row
+                if (targetPosition.length() == 2 
+                    && Character.isLetter(targetPosition.charAt(0)) 
+                    && Character.isDigit(targetPosition.charAt(1))) {
+
+                    column = targetPosition.toLowerCase().charAt(0);
+                    row = Character.getNumericValue(targetPosition.charAt(1));
+
+                    // Check if on the board
+                    if (chessboard.withinChessboard(column, row)) {
+                        break; // Valid input, exit loop
+                    }
+                }
+                System.out.println("Invalid starting position! Must be on board (e.g., e4).");
+            }
+       
 
             switch(pieceType){
                 case KING:
@@ -78,10 +138,31 @@ public class lab3{
         //end of for loop
 
         //Get target coordinates
-        System.out.print("Enter target coordinate(e.g., e4): ");
-        String targetInput = scanner.nextLine();
-        char targetColumn = targetInput.charAt(0);
-        int targetRow = Character.getNumericValue(targetInput.charAt(1));
+        char targetColumn;
+        int targetRow;
+        while (true) {
+          System.out.println("\nPlease type the target position of your piece (e.g., e4): ");
+          String targetPosition = scanner.nextLine().trim();
+
+          // Check basic length and types before getting column and row
+          if (targetPosition.length() == 2 
+            && Character.isLetter(targetPosition.charAt(0)) 
+            && Character.isDigit(targetPosition.charAt(1))) {
+
+            targetColumn = targetPosition.toLowerCase().charAt(0);
+            targetRow = Character.getNumericValue(targetPosition.charAt(1));
+
+            // Check if on the board
+            if (chessboard.withinChessboard(targetColumn, targetRow)) {
+                break; // Valid input, exit loop
+            }
+          }
+          System.out.println("Invalid target position! Must be on board (e.g., e4).");
+        }
         
+        //traverse array and check if it is a valid move
+        for(int i=0;i<pieces.length;i++){
+            break;
+        }
     }
 }

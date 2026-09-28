@@ -1,4 +1,8 @@
 public class Chessboard {
+    //column enum
+    public enum columns {
+        a, b, c, d, e, f, g, h
+    }
     public static final int MIN_ROW = 1;
     public static final int MAX_ROW = 8;
     public static final char MIN_COL = 'a';
@@ -8,8 +12,13 @@ public class Chessboard {
     }
 
     public boolean withinChessboard(char column, int row) {
-        char colLower = Character.toLowerCase(column);
-        return (colLower >= MIN_COL && colLower <= MAX_COL) && 
-               (row >= MIN_ROW && row <= MAX_ROW);
+        boolean validColumn;
+        try {
+            columns.valueOf(String.valueOf(Character.toLowerCase(column)));
+            validColumn = true;
+        } catch (IllegalArgumentException e) {
+            validColumn = false;
+        }
+        return validColumn && row >= MIN_ROW && row <= MAX_ROW;
     }
 }
