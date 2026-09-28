@@ -14,6 +14,7 @@ import java.util.Scanner;
 // 9/28 - Piece type classes VerifyMove methods created.
 // 9/28 - Main method created, user input for piece type, color, and coordinates created. Updated comment header.
 // 9/28 - Updates on main method including every input validation, moved and implemented column enum type to Chessboard class.
+// 9/28 - Added final traversal loop & ChessPiece helper method for printing message
 //--------------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------------
@@ -94,23 +95,23 @@ public class lab3{
             int row;
             char column;
             while (true) {
-                System.out.println("\nPlease type the starting position of your piece (e.g., e4): ");
-                String targetPosition = scanner.nextLine().trim();
+                System.out.println("\nPlease type the starting position of your piece (e.g., e4)(a..h)(1..8): ");
+                String startingPosition = scanner.nextLine().trim();
 
                 // Check basic length and types before getting column and row
-                if (targetPosition.length() == 2 
-                    && Character.isLetter(targetPosition.charAt(0)) 
-                    && Character.isDigit(targetPosition.charAt(1))) {
+                if (startingPosition.length() == 2 
+                    && Character.isLetter(startingPosition.charAt(0)) 
+                    && Character.isDigit(startingPosition.charAt(1))) {
 
-                    column = targetPosition.toLowerCase().charAt(0);
-                    row = Character.getNumericValue(targetPosition.charAt(1));
+                    column = startingPosition.toLowerCase().charAt(0);
+                    row = Character.getNumericValue(startingPosition.charAt(1));
 
                     // Check if on the board
                     if (chessboard.withinChessboard(column, row)) {
                         break; // Valid input, exit loop
                     }
                 }
-                System.out.println("Invalid starting position! Must be on board (e.g., e4).");
+                System.out.println("Invalid starting position! Must be on board.");
             }
        
 
@@ -141,7 +142,7 @@ public class lab3{
         char targetColumn;
         int targetRow;
         while (true) {
-          System.out.println("\nPlease type the target position of your piece (e.g., e4): ");
+          System.out.println("\nPlease type the target position of your pieces (e.g., e4)(a..h)(1..8): ");
           String targetPosition = scanner.nextLine().trim();
 
           // Check basic length and types before getting column and row
@@ -157,12 +158,12 @@ public class lab3{
                 break; // Valid input, exit loop
             }
           }
-          System.out.println("Invalid target position! Must be on board (e.g., e4).");
+          System.out.println("Invalid target position! Must be on board.");
         }
         
         //traverse array and check if it is a valid move
-        for(int i=0;i<pieces.length;i++){
-            break;
+        for (int i = 0; i < pieces.length; i++) {
+            System.out.println(pieces[i].moveResult(targetColumn, targetRow));
         }
     }
 }

@@ -21,6 +21,18 @@ public abstract class ChessPiece{
     //abstract method verifyMove, to be implemented in each piece class
     abstract boolean verifyMove(char column, int row);
 
+    //helper method for printing since no ifs on the checking
+    public String moveResult(char targetColumn, int targetRow) {
+        String result;
+        if (verifyMove(targetColumn, targetRow)) {
+            result = " can move to new location ";
+        } else {
+            result = " can not move to new location ";
+        }
+        return getPieceName() + " at location " + getColumn() + getRow()
+                + result + targetColumn + targetRow;
+    }
+
     //getters
     public String getColor(){
         return this.color;
